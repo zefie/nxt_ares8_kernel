@@ -1,0 +1,29 @@
+Ares8 Stock-ROM-compatible kernel
+
+Working:
+* Boot from droidboot
+* Display (with DRM)
+* Brightness control
+* GPIO Buttons (power volume home)
+* Touchscreen
+* Sound (Speaker)
+* Bluetooth (kinda)
+* HDMI Video
+* Sound Jack Detection
+* Battery status
+* Charging status
+* USB (as device, cannot see attached devices like usb key yet)
+
+Not Working:
+* Cameras (ov2680b and gc0310)
+* USB (attached devices)
+* Wifi (why? same chip and driver as bluetooth...)
+* Intel WiDi (closed source, and see https://www-ssl.intel.com/content/www/us/en/architecture-and-technology/widi-pro-widi-discontinued-notice.html)
+
+Not Tested:
+* HDMI Audio (havent reset elgato yet)
+
+Todo:
+Fix logo
+"reboot bootloader" doesnt work, may need droidboot custom shit, also shutdown = reboot
+
