@@ -392,7 +392,7 @@ int dwc3_intel_byt_platform_init(struct dwc_otg2 *otg)
 	}
 
 	if (data && data->gpio_id) {
-		dev_info(otg->dev,  "USB ID detection - Enabled - GPIO\n");
+		dev_info(otg->dev,  "USB ID detection - Enabled - GPIO (Pin %d)\n",data->gpio_id);
 
 		/* Set ID default value to 1 Floating */
 		data->id = 1;

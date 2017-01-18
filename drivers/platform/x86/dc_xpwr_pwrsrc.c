@@ -79,7 +79,7 @@
 #define DET_STAT_POS			5
 #define DET_STAT_SDP			0x1
 #define DET_STAT_CDP			0x2
-#define DET_STAT_DCP			0x2
+#define DET_STAT_DCP			0x3
 
 #define DC_PS_BOOT_REASON_REG		0x2
 
@@ -348,6 +348,13 @@ static int dc_pwrsrc_handle_otg_notification(struct notifier_block *nb,
 	struct power_supply_cable_props cable_props;
 	int *val = (int *)param;
 
+	// zefie notes
+	// stock returns 2 (USB_EVENT_ID) for otg cable and 4 (USB_EVENT_ENUMERATED)for charger
+	// we seem to return 1 (USB_EVENT_VBUS) for otg and 4 (USB_EVENT_ENUMERATED) for charger
+	// it seems the proper way to fire USB_EVENT_ID is with the correct gpio_id
+	// val (in our kernel with USB_EVENT_VBUS) seems to randomly return a random negative value, luckily we only need 0 or 1.
+	// val is the ma of the charger, or in the case of OTG, 0 for connect, 1 for disconnect
+
 	if (!val || ((event != USB_EVENT_ID) &&
 			(event != USB_EVENT_ENUMERATED)))
 		return NOTIFY_DONE;
@@ -361,6 +368,7 @@ static int dc_pwrsrc_handle_otg_notification(struct notifier_block *nb,
 		 * in case of ID short(*id = 0)
 		 * enable vbus else disable vbus.
 		 */
+
 		if (*val)
 			info->id_short = false;
 		else

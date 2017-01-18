@@ -110,10 +110,12 @@
 #define CHRG_ILIM_3000MA		0x6	/* 3000mA */
 
 #define DC_CHRG_VLTFC_REG		0x38
-#define CHRG_VLTFC_N5C			0xCA	/* -5 DegC */
+#define CHRG_VLTFC_0C			0xB5	/* 0  DegC */
+#define CHRG_VLTFC_N5C			0xD3 	/* -5 DegC */
 
 #define DC_CHRG_VHTFC_REG		0x39
-#define CHRG_VHTFC_60C			0x12	/* 60 DegC */
+#define CHRG_VHTFC_55C			0x16	/* 55 DegC */
+#define CHRG_VHTFC_60C			0x13    /* 60 DegC */
 
 #define DC_PWRSRC_IRQ_CFG_REG		0x40
 #define PWRSRC_IRQ_CFG_VBUS_LOW		(1 << 2)
@@ -849,7 +851,11 @@ static void dc_xpwr_otg_event_worker(struct work_struct *work)
 		dev_warn(&info->pdev->dev, "vbus path disable failed\n");
 
 	if (info->pdata->otg_gpio >= 0) {
+#if defined(CONFIG_MRD7) || defined(CONFIG_MRD8) || defined(CONFIG_ARES8)
 		ret = dc_xpwr_turn_otg_vbus(info, info->id_short);
+#else
+		ret = dc_xpwr_turn_otg_vbus(info, !info->id_short);
+#endif
 		if (ret < 0)
 			dev_err(&info->pdev->dev,
 					"VBUS ON/OFF FAILED: %d\n",

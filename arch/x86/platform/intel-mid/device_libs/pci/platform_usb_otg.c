@@ -175,7 +175,7 @@ static struct intel_dwc_otg_pdata *get_otg_platform_data(struct pci_dev *pdev)
 			dwc_otg_pdata.gpio_cs = 54;
 			dwc_otg_pdata.gpio_reset = 144;
 			dwc_otg_pdata.ulpi_eye_calibration = 0x7f;
-#if defined(CONFIG_MRD7) || defined(CONFIG_MRD8)
+#if defined(CONFIG_MRD7) || defined(CONFIG_MRD8) || defined(CONFIG_ARES8)
 			dwc_otg_pdata.gpio_id = 148;
 #else
 			dwc_otg_pdata.gpio_id = 156;
