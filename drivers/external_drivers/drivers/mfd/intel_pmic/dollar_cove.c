@@ -422,11 +422,7 @@ static void dc_xpwr_pwrsrc_pdata(void)
 #if defined(CONFIG_MRD8) || defined(CONFIG_MRD7P05) || defined(CONFIG_ARES8)
 	int ret;
 
-//#ifdef CONFIG_ARES8
-//	pdata.mux_gpio = 74;
-//#else
 	pdata.mux_gpio = 131;
-//#endif
 
 	ret = gpio_request(pdata.mux_gpio, "mux_gpio");
 	if (ret) {
