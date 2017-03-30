@@ -52,14 +52,14 @@ STOCK_MODS
 
 rm -rf build/out/_modtmp
 mkdir -p build/out/_modtmp
-scripts/z_make.sh make INSTALL_MOD_PATH="$(pwd)/build/out/_modtmp" modules_install 2>&1 > /dev/null
+scripts/z_make.sh INSTALL_MOD_PATH="$(pwd)/build/out/_modtmp" modules_install 2>&1 > /dev/null
 
 for m in ${STOCK_MODULES}; do
 	# Overrides
 	if [ "${m}" == "sensor_general_plugin1_0.ko" ]; then
-		FILE=$(find ./_modtmp -name "sensor_general.ko")
+		FILE=$(find ./build/out/_modtmp -name "sensor_general.ko")
 	else
-		FILE=$(find ./_modtmp -name "${m}")
+		FILE=$(find ./build/out/_modtmp -name "${m}")
 	fi
 
 	FOUND=0
