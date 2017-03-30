@@ -1,14 +1,14 @@
 #!/bin/bash
-DESTDIR=../ares8/boot_remixos_ck/initrd/lib/modules/
-rm -f "${DESTDIR}/*"
+source scripts/z_buildenv.sh
+rm -f "${MODULES_DESTDIR}/*"
 
-if [ -z "$1" ] && [ -z "${DESTDIR}" ]; then
-	echo "Usage: $0 destdir"
+if [ -z "$1" ] && [ -z "${MODULES_DESTDIR}" ]; then
+	echo "Usage: $0 MODULES_DESTDIR"
 	exit 1;
 fi;
 
 if [ ! -z "$1" ]; then
-	DESTDIR="$1"
+	MODULES_DESTDIR="$1"
 fi
 
 read -r -d '' STOCK_MODULES <<-'STOCK_MODS'
@@ -50,9 +50,9 @@ modules.symbols.bin
 STOCK_MODS
 
 
-rm -rf _modtmp
-mkdir -p _modtmp
-scripts/z_buildenv.sh make INSTALL_MOD_PATH="$(pwd)/_modtmp" modules_install 2>&1 > /dev/null
+rm -rf build/out/_modtmp
+mkdir -p build/out/_modtmp
+scripts/z_make.sh make INSTALL_MOD_PATH="$(pwd)/build/out/_modtmp" modules_install 2>&1 > /dev/null
 
 for m in ${STOCK_MODULES}; do
 	# Overrides
@@ -69,11 +69,11 @@ for m in ${STOCK_MODULES}; do
 
 	if [ "${FOUND}" -eq "1" ]; then
 		echo " * [FOUND] ${m}"
-		cp -f "${FILE}" "${DESTDIR}/${m}"
+		cp -f "${FILE}" "${MODULES_DESTDIR}/${m}"
 	else
 		echo " * [MISSN] ${m}" > /dev/stderr
 	fi
 done;
-chmod 644 "${DESTDIR}/"*
+chmod 644 "${MODULES_DESTDIR}/"*
 cd ..
-rm -rf _modtmp
+rm -rf build/out/_modtmp
