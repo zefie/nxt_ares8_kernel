@@ -52,6 +52,8 @@ STOCK_MODS
 
 rm -rf build/out/_modtmp
 mkdir -p build/out/_modtmp
+rm -rf "${MODULES_DESTDIR}"
+mkdir -p "${MODULES_DESTDIR}"
 scripts/z_make.sh INSTALL_MOD_PATH="$(pwd)/build/out/_modtmp" modules_install 2>&1 > /dev/null
 
 for m in ${STOCK_MODULES}; do
